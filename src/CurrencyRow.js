@@ -6,12 +6,15 @@ const {
   currencyOptions,
   selectedCurrency,
   onCurrencyChange,
+  onChangeAmount, 
+  amount,
+  cname
 } = props;
 
 
   return (
-    <div className={props.cname}>
-        <input type="number" />
+    <div className={cname}>
+        <input type="number" value={amount} onChange={onChangeAmount} />
         <select value={selectedCurrency} onChange={onCurrencyChange}>
           {currencyOptions.map((item, idx) => {
             return <option value={item} key={idx}>{item}</option>
