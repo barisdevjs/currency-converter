@@ -1,11 +1,9 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import CurrencyRow from './CurrencyRow';
-import { Temporal, Intl, toTemporalInstant } from '@js-temporal/polyfill';
+import { Temporal, toTemporalInstant } from '@js-temporal/polyfill';
 // eslint-disable-next-line no-extend-native
 Date.prototype.toTemporalInstant = toTemporalInstant;
-
-
 
 
 function App() {
@@ -17,8 +15,6 @@ function App() {
   }
 
   let today = Temporal.Now.plainDateISO()
-  
-
 
   const [currencyOptions, setCurrencyOptions] = useState([]);
   const [fromCurrency, setFromCurrency] = useState();
@@ -26,7 +22,8 @@ function App() {
   const [amount, setAmount] = useState(1);
   const [amountInFromCurrency, setAmountInFromCurrency] = useState(true);
   const [exchangeRate, setExchangeRate] = useState();
-  const [flags, setFlags] = useState({ from: false, to: false });
+  const [nameFrom, setNameFrom] = useState('');
+  const [nameTo, setNameTo] = useState('');
 
   let toAmount, fromAmount;
   if (amountInFromCurrency) {
@@ -38,8 +35,6 @@ function App() {
   }
 
   const getFlagEmoji = countryCode=>String.fromCodePoint(...[...countryCode.toUpperCase()].map(x=>0x1f1a5+x.charCodeAt(0)))
-
-
 
   // get the available currencies 
 
@@ -62,7 +57,7 @@ function App() {
 
 
   useEffect(() => {
-    if (fromCurrency && toCurrency) {
+    if (fromCurrency !== null && toCurrency !== null) {
       fetch(`${api.base}${today}?from=${fromCurrency}&amount=${amount}&format=json&to=${toCurrency}`, {
         "method": "GET",
         "headers": {
@@ -76,15 +71,17 @@ function App() {
         .then(data => {
           console.log(data);
           setExchangeRate(data.rates[toCurrency].rate);
-          setFlags({from:getFlagEmoji(data.base_currency_code.slice(0,2)),to:getFlagEmoji(data.base_currency_code.slice(0,2))});
+          setNameFrom(data.base_currency_name);
+          setNameTo(data.rates[toCurrency].currency_name);
         })
         .catch(err => {
           console.error(err);
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fromCurrency, toCurrency]);
+  }, [fromCurrency, toCurrency, nameFrom, nameTo]);
 
+  console.log(fromCurrency, toCurrency);
 
   function handleFromAmountChange(e) {
     setAmount(e.target.value);
@@ -107,15 +104,21 @@ function App() {
           onCurrencyChange={e => setFromCurrency(e.target.value)}
           amount={fromAmount}
           onChangeAmount={handleFromAmountChange}
+          name={nameFrom}
+          image = {`https://countryflagsapi.com/png/${fromCurrency.toLowerCase().slice(0,2)}`}
           />
-        <img src={`https://countryflagsapi.com/png/${fromCurrency.toLowerCase().slice(0,2)}`} alt=""/>
-        <div className='equals'> ==  &gt; </div>
+        {/* <img src={`https://countryflagsapi.com/png/${fromCurrency.toLowerCase().slice(0,2)}`}  alt=""/> */}
         <CurrencyRow cname='two'
           currencyOptions={currencyOptions}
           selectedCurrency={toCurrency}
           onCurrencyChange={e => setToCurrency(e.target.value)}
           amount={toAmount}
-          onChangeAmount={handleToAmountChange} />
+          onChangeAmount={handleToAmountChange}
+          name={nameTo} 
+          image = {`https://countryflagsapi.com/png/${toCurrency.toLowerCase().slice(0,2)}`}
+
+          />
+        {/* <img src={`https://countryflagsapi.com/png/${toCurrency.toLowerCase().slice(0,2)}`}  alt=""/> */}
       </main>
     </div>
     </>

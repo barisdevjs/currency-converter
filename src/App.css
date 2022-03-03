@@ -36,7 +36,7 @@ main {
     grid-row-gap: 1rem;
     text-align: center;
     width: 90vw;
-    height: 10vh;
+    height: 90vh;
     justify-content: center;
     justify-items: center;
 }
