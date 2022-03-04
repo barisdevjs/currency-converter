@@ -17,26 +17,30 @@ function App() {
   let today = Temporal.Now.plainDateISO()
 
   const [currencyOptions, setCurrencyOptions] = useState([]);
-  const [fromCurrency, setFromCurrency] = useState();
-  const [toCurrency, setToCurrency] = useState();
+  const [fromCurrency, setFromCurrency] = useState('STN');
+  const [toCurrency, setToCurrency] = useState('BMD');
   const [amount, setAmount] = useState(1);
   const [amountInFromCurrency, setAmountInFromCurrency] = useState(true);
   const [exchangeRate, setExchangeRate] = useState();
   const [nameFrom, setNameFrom] = useState('');
   const [nameTo, setNameTo] = useState('');
+  const [ [headerFrom, headerTo], setHeader ] = useState(['US Dollar', 'Euro']);
 
   let toAmount, fromAmount;
   if (amountInFromCurrency) {
-    fromAmount = amount;
-    toAmount = amount * exchangeRate;
+    fromAmount = Number(amount).toFixed(4);
+    toAmount = Number(amount * exchangeRate).toFixed(4);
   } else {
-    toAmount = amount;
-    fromAmount = amount / exchangeRate;
+    toAmount = Number(amount).toFixed(4);
+    fromAmount = Number(amount / exchangeRate).toFixed(4);
   }
 
-  const getFlagEmoji = countryCode=>String.fromCodePoint(...[...countryCode.toUpperCase()].map(x=>0x1f1a5+x.charCodeAt(0)))
-
+  function convertName(str) {
+    return str.slice(0,2)
+  }
   // get the available currencies 
+
+console.log( typeof amount )
 
   useEffect(() => {
     fetch(`${api.available}?format=json&date=${today}`, {
@@ -48,13 +52,23 @@ function App() {
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data)
         setCurrencyOptions(Object.keys(data.currencies));
         setFromCurrency(Object.keys(data.currencies)[0]);
-        setToCurrency(Object.keys(data.currencies)[1]);
+        setToCurrency(Object.keys(data.currencies)[13]);
+        setNameFrom(fromCurrency);
+        setNameTo(toCurrency);
       })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+    console.table({
+      'fromCurrency': fromCurrency,
+      'toCurrency': toCurrency,
+      'nameFrom': nameFrom,
+      'nameTo': nameTo
+    }
+  )
 
   useEffect(() => {
     if (fromCurrency !== null && toCurrency !== null) {
@@ -71,17 +85,15 @@ function App() {
         .then(data => {
           console.log(data);
           setExchangeRate(data.rates[toCurrency].rate);
-          setNameFrom(data.base_currency_name);
-          setNameTo(data.rates[toCurrency].currency_name);
+          setHeader([data.base_currency_name, data.rates[toCurrency].currency_name]);
         })
         .catch(err => {
           console.error(err);
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fromCurrency, toCurrency, nameFrom, nameTo]);
+  }, [fromCurrency, toCurrency]);
 
-  console.log(fromCurrency, toCurrency);
 
   function handleFromAmountChange(e) {
     setAmount(e.target.value);
@@ -104,21 +116,20 @@ function App() {
           onCurrencyChange={e => setFromCurrency(e.target.value)}
           amount={fromAmount}
           onChangeAmount={handleFromAmountChange}
-          name={nameFrom}
-          image = {`https://countryflagsapi.com/png/${fromCurrency.toLowerCase().slice(0,2)}`}
+          name={headerFrom}
+          image = {`https://countryflagsapi.com/png/${convertName(fromCurrency)}`}
+          verb='have'
           />
-        {/* <img src={`https://countryflagsapi.com/png/${fromCurrency.toLowerCase().slice(0,2)}`}  alt=""/> */}
         <CurrencyRow cname='two'
           currencyOptions={currencyOptions}
           selectedCurrency={toCurrency}
           onCurrencyChange={e => setToCurrency(e.target.value)}
           amount={toAmount}
           onChangeAmount={handleToAmountChange}
-          name={nameTo} 
-          image = {`https://countryflagsapi.com/png/${toCurrency.toLowerCase().slice(0,2)}`}
-
+          name={headerTo} 
+          image = {`https://countryflagsapi.com/png/${convertName(toCurrency)}`}
+          verb='Want'
           />
-        {/* <img src={`https://countryflagsapi.com/png/${toCurrency.toLowerCase().slice(0,2)}`}  alt=""/> */}
       </main>
     </div>
     </>

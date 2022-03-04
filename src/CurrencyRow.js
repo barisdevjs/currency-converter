@@ -10,13 +10,13 @@ const {
   amount,
   name,
   image,
+  verb,
   cname
 } = props;
 
-
   return (
     <div className={cname}>
-        <h2>I have {name}</h2>
+        <h2>I {verb} {name}s</h2>
         <input type="number" value={amount} onChange={onChangeAmount} />
         <select value={selectedCurrency} onChange={onCurrencyChange}>
           {currencyOptions.map((item, idx) => {
