@@ -4,13 +4,18 @@
 
 ## Below you will see the page of an app
 
-![alt text](https://github.com/barisdevjs/react-calculator/blob/main/calculator1.jpg)
+![alt text](https://github.com/barisdevjs/currency-converter/blob/main/assets/screenshot1.js.jpg)
 
-![alt text](https://github.com/barisdevjs/react-calculator/blob/main/calculator2.jpg)
+![alt text](https://github.com/barisdevjs/currency-converter/blob/main/assets/screenshot2.js.jpg)
 
-![alt text](https://github.com/barisdevjs/react-calculator/blob/main/calculator3.jpg)
 
+
+## Used API's
+
+- Currency Apı
+- Javascript Temporal Api ( It's under construction can be used only polyfill )
+- Country Flags Api
 
 ---
 
-### This app logic is build by the help of `useReducer` hook in react
+### This app logic is build by the help of `useState && useEffect` hooks in react
