@@ -2,6 +2,7 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import CurrencyRow from './CurrencyRow';
 import { Temporal, toTemporalInstant } from '@js-temporal/polyfill';
+import useLocalStorage from 'use-local-storage'
 // eslint-disable-next-line no-extend-native
 Date.prototype.toTemporalInstant = toTemporalInstant;
 
@@ -25,6 +26,10 @@ function App() {
   const [nameFrom, setNameFrom] = useState('');
   const [nameTo, setNameTo] = useState('');
   const [ [headerFrom, headerTo], setHeader ] = useState(['US Dollar', 'Euro']);
+
+
+  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
 
   let toAmount, fromAmount;
   if (amountInFromCurrency) {
@@ -76,7 +81,10 @@ console.log( typeof amount )
         "method": "GET",
         "headers": {
           "x-rapidapi-host": "currency-converter5.p.rapidapi.com",
-          "x-rapidapi-key": `${process.env.REACT_APP_API_KEY}`
+          "x-rapidapi-key": `${process.env.REACT_APP_API_KEY}`,
+         // set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
+          "mode": "no-cors"
+          
         }
       })
         .then(response => {
@@ -105,10 +113,18 @@ console.log( typeof amount )
     setAmountInFromCurrency(false);
   }
 
+ // implement a function that toggles between darkmode and lightmode in css
+
+  const switchTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+  }
+
 
   return (
-    <><div className='app'>
+    <><div className='app' data-theme={theme}>
       <h1>Money Converter</h1>
+      <button onClick={switchTheme}>Toggle Theme</button>
       <main>
         <CurrencyRow cname='one'
           currencyOptions={currencyOptions}

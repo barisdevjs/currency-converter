@@ -6,15 +6,80 @@ user-select: none;
 user-zoom: 3;
 }
 
+:root {
+--black : 0,0,0;
+--one : .1;
+--two : .2;
+--three : .3;
+--four : .4;
+--five : .5;
+--six : .6;
+--seven : .7;
+--eight : .8;
+--nine : .9;
+--input-number : rgb(8, 8, 43);
+--select-color : black;
+}
+
+[data-theme="light"] {
+--black : 0,0,0;
+--one : .1;
+--two : .2;
+--three : .3;
+--four : .4;
+--five : .5;
+--input-number : rgb(8, 8, 43);
+--select-color : black;
+}
+
+[data-theme="dark"] {
+--black : 0,0,0;
+--one : .3;
+--two : .4;
+--three : .5;
+--four : .6;
+--five : .7;
+--nine:.9;
+--select-color : white;
+--input-number : gold;
+
+}
+
 body {
-    background-color:rgba(0, 0, 0, .2);
+background-color:rgba(var(--black), var(--one));
+font-family: 'Roboto', sans-serif;
+}
+
+button {
+    width:15vw;
+    height:7vh;
+    border-radius: 20px;
+    outline: none;
+    border: none;
+    font-size: 1rem;
+    letter-spacing: .1rem;
     font-family: 'Roboto', sans-serif;
-    /* color:gold; */
+    font-weight: 600;
+    background-color: rgba(var(--black), var(--four));
+    color: var(--select-color);
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: rgba(var(--black), var(--five));
+    transform:scale(1.05);
 }
 
 .app  h1 {
-    font-family: Arial, Helvetica, sans-serif;
-    margin-block-start:1rem;
+font-family: Arial, Helvetica, sans-serif;
+margin-block-start:1rem;
+font-size: 2.5rem;
+
+}
+
+main h2 {
+color:var(--select-color);
+opacity: var(--nine);
 }
 
 .app {
@@ -29,66 +94,65 @@ gap: 3vmin;
 
 
 main {
-    background-color: rgba(0, 0, 0, .3);
-    display: flex;
-    text-align: center;
-    width: 90vw;
-    height: 90vh;
-    justify-content: center;
-    align-items: center;
-    column-gap:10vw;
-    padding: 3vmin;
-    border-radius: 10px;
-    margin-bottom: 3vw;
+background-color: rgba(var(--black), var(--three));
+display: flex;
+text-align: center;
+width: 90vw;
+height: 90vh;
+justify-content: center;
+align-items: center;
+column-gap:10vw;
+padding: 3vmin;
+border-radius: 10px;
+margin-bottom: 3vw;
 }
 
 /* main > * {
-    align-self: center;
+align-self: center;
 } */
 
 .one , .two {
-background-color: rgba(0, 0, 0, .4);
+background-color: rgba(var(--black), var(--four));
 display:flex;
 flex-direction: column;
 justify-content:space-evenly;
 align-items:center;
-width: 60%;
+width: 40%;
 height: 90%;
 border-radius: 10px;
 }
 
-.two {
-    background-color: rgba(0, 0, 0, .4);
-}
-
 
 input[type='number'] , select {
-    font-size: 2rem;
-    text-align: center;
-    border: none;
-    background-color: transparent;
-    font-weight: bold;
-    outline: none;
+font-size: 2rem;
+text-align: center;
+border: none;
+background-color: transparent;
+font-weight: bold;
+outline: none;
 }
 
 input[type='number'] {
-    width: 50%;
-    height: 10%;
-    border-radius: 0.5rem;
-    border: none;
-    background-color: rgba(0, 0, 0, .1);
-    padding: 0.5rem;
-    color: gold;
+width: 50%;
+height: 10%;
+border-radius: .5rem;
+border: none;
+color: var(--select-color);
+padding: 0.5rem;
 }
 
 select {
-    width: 20%;
-    color:white;
+width: 20%;
+color: var(--input-number);
 }
 
 img {
-    width: 50%;
-    height: 40%;
+width: 50%;
+height: 40%;
+}
+
+select:active{
+opacity: var(--nine);
 }
 
 
