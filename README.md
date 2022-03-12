@@ -6,7 +6,7 @@
 
 ![alt text](https://github.com/barisdevjs/currency-converter/blob/main/assets/screenshot1.js.jpg)
 
-![alt text](https://github.com/barisdevjs/currency-converter/blob/main/assets/screenshot2.js.jpg)
+![alt text](https://github.com/barisdevjs/currency-converter/blob/main/assets/screenshot2.jpg)
 
 
 
