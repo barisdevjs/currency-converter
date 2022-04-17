@@ -1,4 +1,4 @@
-# This is a retro styled iphonic calculator
+# This is currency converter app
 ---
 [ LIVE  Demo](https://622c6f4a14612946cd0bf455--sad-ritchie-374e7e.netlify.app/)
 
